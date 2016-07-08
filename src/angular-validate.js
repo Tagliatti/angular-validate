@@ -3,8 +3,8 @@
 
         .directive('ngValidate', function () {
             return {
-                require: '^form',
                 restrict: 'A',
+                require: '^form',
                 scope: {
                     ngValidate: '='
                 },
@@ -24,6 +24,10 @@
                         validator.settings = oldSettings; // Reset to old settings
 
                         return valid;
+                    };
+                    
+                    form.resetForm = function () {
+                        validator.resetForm();
                     };
 
                     form.numberOfInvalids = function () {
@@ -59,6 +63,18 @@
                             });
                             event.preventDefault();
                         });
+                    });
+                }
+            }
+        }])
+
+        .directive('validateReset', [function () {
+            return {
+                restrict: 'A',
+                require: '^form',
+                link: function (scope, element, attrs, form) {
+                    element.bind('click', function (event) {
+                        form.resetForm();
                     });
                 }
             }
